@@ -12,4 +12,9 @@ class Galeri extends Model
     public function bukus(){
         return $this->belongsTo('App\Buku', 'id_buku', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

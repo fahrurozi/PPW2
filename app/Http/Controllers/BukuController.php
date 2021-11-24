@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Buku;
+use App\Comment;
+use App\User;
+use App\Galeri;
 use File;
+use Illuminate\Support\Facades\Auth;
 use Image;
 
 class BukuController extends Controller
@@ -131,9 +135,34 @@ class BukuController extends Controller
     public function galbuku($title){
         $bukus = Buku::where('buku_seo', $title)->first();  
         $galeris = $bukus->photos()->orderBy('id', 'desc')->paginate(6);
-        
-        return view('buku.seo.galeri_buku', compact('bukus', 'galeris'));
+        $comment = Comment::where('book_id', $bukus->id)->has('users')->with('users')->get();;
+        // dd(Auth::user()->id);
+
+        return view('buku.seo.galeri_buku', compact('bukus', 'galeris', 'comment'));
+    }
+
+    public function likefoto($id){
+        $buku = Buku::find($id);
+        $buku->increment('suka');
+        return back();
     }
 
     
+    public function createComment($id){
+        $data_buku = Buku::where('id', $id)->get()->first();
+// dd($data_buku);
+        return view('buku.seo.comment.create', compact('data_buku'));
+    }
+
+    public function storeComment(Request $request, $id){
+       
+        $buku = Buku::where('id', $id)->get()->first();
+        
+        $comment = new Comment;
+        $comment->comment = $request->comment;
+        $comment->user_id = Auth::user()->id;
+        $comment->book_id = $id;
+        $comment->save();
+        return redirect('/list_buku/detail_buku/'.$buku->buku_seo)->with('pesan', 'Komentar Berhasil ditambahkan');
+    }
 }

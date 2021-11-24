@@ -70,3 +70,7 @@ Route::post('/galeri/update/{id}', 'GaleriController@update')->name('galeri.upda
 
 Route::get('/list_buku', 'BukuController@list_buku')->name('list_buku');
 Route::get('/list_buku/detail_buku/{title}', 'BukuController@galbuku')->name('detail.galeri.buku');
+
+Route::get('/list_buku/like/{id}', 'BukuController@likefoto')->name('likefoto');
+Route::get('/list_buku/comment/add/{id}', 'BukuController@createComment')->name('create.comment');
+Route::post('/list_buku/comment/store/{id}', 'BukuController@storeComment')->name('store.comment');

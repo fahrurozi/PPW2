@@ -8,35 +8,43 @@
         <div class="card ">
             <div class="card-header">
                 <h4 class="card-title"> List Buku SEO</h4>
-            </div> 
+            </div>
             <div class="card-body" style="padding:50px">
                 <div class="table-responsive ps">
                     <table class="table tablesorter " id="">
                         <thead class=" text-primary">
-                            <!-- <tr>
+                            <tr>
                                 <th>No</th>
-                                <th>Judul</th>
-                                <th>Gambar</th>
+                                <th>Nama</th>
+                                <th>Cover</th>
+                                <th>Suka</th>
                                 <th style="width: 20%;" class="text-center">#</th>
-                            </tr> -->
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach($bukus as $buku)
                             <tr>
                                 <td>{{++$no}}</td>
                                 <td style="width: 40%;">{{$buku->judul}}</td>
-                                <td ><img src="{{asset('thumb/'.$buku->foto)}}" alt=""></td>
-                                <td><button class="btn btn-success btn-sm" ><a  href="{{route('detail.galeri.buku', (str_replace(' ', '-', strtolower($buku->judul))))}}" style="color: white; font-weight: 600">Lihat</a></button>
+                                <td><img src="{{asset('thumb/'.$buku->foto)}}" alt=""></td>
+                                <td>Disukai <span class="badge badge-info">{{$buku->suka}}</span></td>
+                                <td>
+                                    <button class="btn btn-info btn-sm">
+                                        <a href="{{route('likefoto',$buku->id)}}" style="color: white; font-weight: 600">Suka</a>
+                                    </button>
+                                    <button class="btn btn-success btn-sm">
+                                        <a href="{{route('detail.galeri.buku', (str_replace(' ', '-', strtolower($buku->judul))))}}" style="color: white; font-weight: 600">Lihat</a>
+                                    </button>
                                 </td>
                             </tr>
-                           @endforeach
-                           
+                            @endforeach
+
 
                         </tbody>
                         <tr>
                             <td colspan="4"></td>
                         </tr>
-                                              
+
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="1">
